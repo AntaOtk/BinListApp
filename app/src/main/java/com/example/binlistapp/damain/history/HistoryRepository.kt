@@ -1,4 +1,4 @@
-package com.example.binlistapp.damain
+package com.example.binlistapp.damain.history
 
 interface HistoryRepository {
     fun getHistory()

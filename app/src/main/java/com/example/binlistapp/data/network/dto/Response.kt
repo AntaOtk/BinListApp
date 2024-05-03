@@ -1,5 +1,5 @@
 package com.example.binlistapp.data.network.dto
 
-data class INfoResponse(
-    val code: String
-)
+open class Response {
+    var resultCode = 0
+}

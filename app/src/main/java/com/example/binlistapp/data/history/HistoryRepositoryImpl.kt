@@ -1,6 +1,6 @@
-package com.example.binlistapp.data
+package com.example.binlistapp.data.history
 
-import com.example.binlistapp.damain.HistoryRepository
+import com.example.binlistapp.damain.history.HistoryRepository
 
 class HistoryRepositoryImpl() : HistoryRepository {
     override fun getHistory() {

@@ -68,5 +68,7 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     annotationProcessor (libs.compiler)
+    implementation (libs.androidx.runtime.livedata)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
 }

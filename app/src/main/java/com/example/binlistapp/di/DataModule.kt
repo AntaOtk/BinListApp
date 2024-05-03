@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 val dataModule = module {
 
     single<ApiSearchBIN> {
-        Retrofit.Builder().baseUrl("https://lookup.binlist.net/")
+        Retrofit.Builder().baseUrl("https://lookup.binlist.net")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiSearchBIN::class.java)
