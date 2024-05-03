@@ -1,9 +1,9 @@
 package com.example.binlistapp.di
 
-import com.example.binlistapp.damain.history.HistoryRepository
-import com.example.binlistapp.damain.Search.SearchingRepository
-import com.example.binlistapp.data.history.HistoryRepositoryImpl
-import com.example.binlistapp.data.SearchingRepositoryImpl
+import com.example.binlistapp.history.domain.HistoryRepository
+import com.example.binlistapp.search.domain.SearchingRepository
+import com.example.binlistapp.history.data.HistoryRepositoryImpl
+import com.example.binlistapp.search.data.SearchingRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
