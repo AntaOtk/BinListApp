@@ -21,11 +21,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.binlistapp.R
+import com.example.binlistapp.contact.ToConnectProvider
 import com.example.binlistapp.search.domain.model.CardInfo
+import com.example.binlistapp.search.domain.model.Country
 import com.example.binlistapp.ui.theme.HellGrey
 import org.koin.androidx.compose.koinViewModel
 
@@ -44,9 +49,18 @@ fun SearchScreen(
     ) {
         BINTextField(viewModel, modifier)
         when (currentData) {
-            is SearchState.Content -> InfoPresenter((currentData as SearchState.Content).cardInfo, viewModel, modifier)
-            is SearchState.Error -> Text(text = (currentData as SearchState.Error).errorMessage)
-            SearchState.Default -> Unit
+            is SearchState.Content -> InfoPresenter(
+                (currentData as SearchState.Content).cardInfo,
+                viewModel,
+                modifier
+            )
+
+            is SearchState.Error -> ErrorText(
+                (currentData as SearchState.Error).errorMessage,
+                modifier
+            )
+
+            SearchState.Default -> Spacer(modifier = modifier.padding(4.dp))
         }
 
         Button(onClick = { navController.navigate(route = "Second") },
@@ -59,58 +73,95 @@ fun SearchScreen(
 }
 
 @Composable
-fun InfoPresenter(currentData: CardInfo, viewmodel: SearchViewModel, modifier: Modifier) {
+fun ErrorText(message: String, modifier: Modifier) {
+    Text(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 24.dp),
+        textAlign = TextAlign.Center,
+        text = message
+    )
+}
+
+@Composable
+fun InfoPresenter(currentData: CardInfo, viewmodel: ToConnectProvider, modifier: Modifier) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp)
             .clip(shape = RoundedCornerShape(16.dp))
             .background(HellGrey)
-            .padding(16.dp)
+            .padding(8.dp)
     ) {
+        NonClickableInfo(R.string.scheme, currentData.scheme, modifier)
+        NonClickableInfo(R.string.type, currentData.type, modifier)
+        NonClickableInfo(R.string.brand, currentData.brand, modifier)
+        CountryColumn(currentData.country, modifier, viewmodel)
+        NonClickableInfo(R.string.bank_name, currentData.bank?.name ?: "-", modifier)
+        if (!currentData.bank?.url.isNullOrEmpty()) {
+            Text(
+                color = Color.Gray,
+                text = "Url:"
+            )
+            Text(
+                modifier = modifier.clickable { currentData.bank?.url?.let { viewmodel.goToUrl(it) } },
+                text = currentData.bank?.url ?: "-"
+            )
+        }
+        if (!currentData.bank?.url.isNullOrEmpty()) {
+            Text(
+                color = Color.Gray,
+                text = "Мобильный телефон:"
+            )
+            Text(
+                modifier = modifier.clickable {
+                    currentData.bank?.phone?.let {
+                        viewmodel.goToCall(
+                            it
+                        )
+                    }
+                },
+                text = currentData.bank?.phone ?: "-"
+            )
+        }
+        NonClickableInfo(R.string.bank_city, currentData.bank?.city, modifier)
+    }
+}
+
+@Composable
+fun CountryColumn(country: Country?, modifier: Modifier, viewmodel: ToConnectProvider) {
+    Column {
         Text(
             color = Color.Gray,
-            text = "BANK:"
+            text = stringResource(id = R.string.country)
         )
         Text(
-            text = currentData.bank?.name ?: "-"
+            modifier = modifier.clickable {
+                country?.let {
+                    viewmodel.goToMap(
+                        it.latitude,
+                        it.longitude
+                    )
+                }
+            },
+            text = country?.name ?: "-",
         )
-        Spacer(modifier = modifier.padding(vertical = 8.dp))
-        Text(
-            color = Color.Gray,
-            text = "Brand:"
-        )
-        Text(
-            modifier = modifier.clickable { println("Clicked") },
-            text = currentData.brand
-        )
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-        Text(
-            color = Color.Gray,
-            text = "Url:"
-        )
-        Text(
-            modifier = modifier.clickable { currentData.bank?.url?.let { viewmodel.moveToUrl(it) } },
-            text = currentData.bank?.url ?: "-"
-        )
-        Spacer(modifier = modifier.padding(vertical = 8.dp))
-        Text(
-            color = Color.Gray,
-            text = "Мобильный телефон:"
-        )
-        Text(
-            modifier = modifier.clickable { currentData.bank?.phone?.let { viewmodel.moveToCall(it) } },
-            text = currentData.bank?.phone ?: "-"
-        )
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-        Text(
-            color = Color.Gray,
-            text = "country"
-        )
-        Text(
-            modifier = modifier.clickable { currentData.country?.name?.let { viewmodel.moveToMap(it) } },
-            text = currentData.country?.name ?: "-",
-        )
+    }
+}
+
+@Composable
+fun NonClickableInfo(text: Int, text1: String?, modifier: Modifier) {
+    if (!text1.isNullOrEmpty()) {
+        Column {
+            Text(
+                color = Color.Gray,
+                text = stringResource(id = text)
+            )
+            Text(
+                modifier = modifier.clickable { println("Clicked") },
+                text = text1
+            )
+        }
     }
 }
 

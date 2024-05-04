@@ -10,7 +10,7 @@ data class BINInfoEntity(
     val scheme: String,
     val type: String,
     val brand: String,
-    val prepaid: Boolean,
+    val prepaid: Boolean?,
     val country: String,
     val bank: String,
 )

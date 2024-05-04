@@ -13,12 +13,12 @@ class CardInfoBdMapper(private val gson: Gson) {
     fun map(cardInfo: BINInfoEntity): FullCardInfo {
         return FullCardInfo(
             cardInfo.id.toString(),
-            cardInfo.scheme,
+            CardInfo(cardInfo.scheme,
             cardInfo.type,
             cardInfo.brand,
             cardInfo.prepaid,
             mapToCountry(cardInfo.country),
-            mapToBank(cardInfo.bank)
+            mapToBank(cardInfo.bank))
         )
     }
 

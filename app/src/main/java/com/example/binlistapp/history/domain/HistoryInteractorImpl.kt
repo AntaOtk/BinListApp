@@ -21,8 +21,8 @@ class HistoryInteractorImpl(
         externalNavigator.goToCall(phone)
     }
 
-    override fun goToMap(country: String) {
-        externalNavigator.goToMAp(country)
+    override fun goToMap(latitude: Long, longitude: Long) {
+        externalNavigator.goToMAp(latitude,longitude)
 
     }
 

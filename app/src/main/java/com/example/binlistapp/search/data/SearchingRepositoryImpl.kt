@@ -20,7 +20,7 @@ class SearchingRepositoryImpl(
         val response = networkClient.search(bin)
         when (response.resultCode) {
             -1 -> {
-                return Resource.Error(androidContext.getString(R.string.no_interrnet_conection))
+                return Resource.Error(androidContext.getString(R.string.bad_response))
             }
 
             200 -> {

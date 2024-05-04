@@ -26,8 +26,8 @@ class SearchingInteractorImp(
         externalNavigator.goToCall(phone)
     }
 
-    override fun moveToMap(country: String) {
-        externalNavigator.goToMAp(country)
+    override fun goToMap(latitude: Long,longitude: Long) {
+        externalNavigator.goToMAp(latitude,longitude)
     }
 
     override fun moveToUrl(bankUrl: String) {

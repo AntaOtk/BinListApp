@@ -8,6 +8,6 @@ interface SearchingInteractor {
     fun searchInfo(bin: String): Flow<Resource<CardInfo>>
 
     fun moveToCall(phone: String)
-    fun moveToMap(country: String)
+    fun goToMap(latitude: Long, longitude: Long)
     fun moveToUrl(bankUrl: String)
 }

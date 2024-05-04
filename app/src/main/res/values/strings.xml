@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">BinListApp</string>
-    <string name="no_interrnet_conection">не удалось получить данныею Проверте подключение</string>
+    <string name="no_interrnet_conection">не удалось получить данные \n Проверте подключение</string>
+    <string name="bad_response">Ошибка сервера</string>
+    <string name="scheme">scheme</string>
+    <string name="bank_name">Bank:</string>
+    <string name="bank_city">City</string>
+    <string name="country">Страна</string>
+    <string name="type">тип карты</string>
+    <string name="brand">бранд</string>
 </resources>

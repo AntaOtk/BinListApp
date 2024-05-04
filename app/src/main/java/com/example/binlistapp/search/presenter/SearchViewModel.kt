@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.binlistapp.contact.ToConnectProvider
 import com.example.binlistapp.search.domain.SearchingInteractor
 import com.example.binlistapp.search.util.Resource
 import kotlinx.coroutines.launch
 
-class SearchViewModel(val interactor: SearchingInteractor) : ViewModel() {
+class SearchViewModel(val interactor: SearchingInteractor) : ViewModel(), ToConnectProvider {
 
     private val _infoState = MutableLiveData<SearchState>()
     val cardState: LiveData<SearchState> = _infoState
@@ -32,15 +33,15 @@ class SearchViewModel(val interactor: SearchingInteractor) : ViewModel() {
         }
     }
 
-    fun moveToCall(phone: String) {
+    override fun goToCall(phone: String) {
         interactor.moveToCall(phone)
     }
 
-    fun moveToMap(country: String) {
-        interactor.moveToMap(country)
+    override fun goToMap(latitude: Long, longitude: Long) {
+        interactor.goToMap(latitude,longitude)
     }
 
-    fun moveToUrl(bankUrl: String) {
+    override fun goToUrl(bankUrl: String) {
         interactor.moveToUrl(bankUrl)
     }
 

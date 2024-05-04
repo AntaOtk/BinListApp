@@ -10,9 +10,9 @@ import com.example.binlistapp.search.domain.model.Country
 class CardMapper {
     fun mapFromDto(card: CardDto): CardInfo {
         return CardInfo(
-            card.scheme,
-            card.type,
-            card.brand,
+            card.scheme ?: "",
+            card.type ?: "",
+            card.brand ?: "",
             card.prepaid,
             mapToCountry(card.country),
             mapToBank(card.bank)

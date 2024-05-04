@@ -7,6 +7,6 @@ interface HistoryInteractor {
     fun getHistory(): Flow<List<FullCardInfo>>
     suspend fun clearHistory()
     fun goToCall(phone: String)
-    fun goToMap(country: String)
+    fun goToMap(latitude: Long, longitude: Long)
     fun goToUrl(bankUrl: String)
 }

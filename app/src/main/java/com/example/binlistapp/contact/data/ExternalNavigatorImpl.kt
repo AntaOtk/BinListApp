@@ -14,8 +14,8 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
         context.startActivity(callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
-    override fun goToMAp(city: String) {
-        val uri = Uri.parse("geo:0,0?q=$city")
+    override fun goToMAp(latitude: Long,longitude: Long) {
+        val uri = Uri.parse("geo:0,0?q=$latitude,$longitude")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         context.startActivity(intent)
     }
