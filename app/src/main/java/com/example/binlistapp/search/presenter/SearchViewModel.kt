@@ -1,29 +1,35 @@
 package com.example.binlistapp.search.presenter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.binlistapp.search.domain.SearchingInteractor
-import com.example.binlistapp.search.domain.model.InfoData
+import com.example.binlistapp.search.util.Resource
 import kotlinx.coroutines.launch
 
 class SearchViewModel(val interactor: SearchingInteractor) : ViewModel() {
 
-    private val _infoData = MutableLiveData<InfoData?>()
-    val infoData: LiveData<InfoData?> = _infoData
-    fun setInfoData(data: InfoData?) {
-        _infoData.value = data
+    private val _infoState = MutableLiveData<SearchState>()
+    val cardState: LiveData<SearchState> = _infoState
+    private fun setInfoState(data: SearchState) {
+        _infoState.value = data
     }
 
     fun searchInfo(bin: String) {
         if (bin.length in MIN_LENGTH..MAX_LENGTH) {
             viewModelScope.launch {
-                interactor.searchInfo(bin).collect { info ->
-                    setInfoData(info)
+                interactor.searchInfo(bin).collect { result ->
+                    when (result) {
+                        is Resource.Success -> setInfoState(SearchState.Content(result.data!!))
+                        is Resource.Error -> setInfoState(SearchState.Error(result.message!!))
+                    }
+
                 }
-            } }else { Log.d("input", "info $bin ${bin.length} in $MIN_LENGTH..$MAX_LENGTH")}
+            }
+        } else {
+            setInfoState(SearchState.Error("Enter the first 6 to 8 digits of a card number"))
+        }
     }
 
     fun moveToCall(phone: String) {
@@ -33,12 +39,13 @@ class SearchViewModel(val interactor: SearchingInteractor) : ViewModel() {
     fun moveToMap(country: String) {
         interactor.moveToMap(country)
     }
+
     fun moveToUrl(bankUrl: String) {
         interactor.moveToUrl(bankUrl)
     }
 
-    companion object{
-        const val MIN_LENGTH= 6
-        const val MAX_LENGTH= 8
+    companion object {
+        const val MIN_LENGTH = 6
+        const val MAX_LENGTH = 8
     }
 }

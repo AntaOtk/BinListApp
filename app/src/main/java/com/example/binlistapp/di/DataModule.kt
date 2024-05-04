@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.example.binlistapp.contact.domain.ExternalNavigator
 import com.example.binlistapp.contact.data.ExternalNavigatorImpl
 import com.example.binlistapp.history.data.bd.AppDatabase
+import com.example.binlistapp.history.data.mapper.CardInfoBdMapper
+import com.example.binlistapp.search.data.mapper.CardMapper
 import com.example.binlistapp.search.data.network.ApiSearchBIN
 import com.example.binlistapp.search.data.network.NetworkClient
 import com.example.binlistapp.search.data.network.RetrofitNetworkClient
@@ -30,6 +32,9 @@ val dataModule = module {
     }
 
     factory { Gson() }
+
+    single { CardInfoBdMapper(get()) }
+    single { CardMapper() }
 
     single<NetworkClient> {
         RetrofitNetworkClient(get(), androidContext())

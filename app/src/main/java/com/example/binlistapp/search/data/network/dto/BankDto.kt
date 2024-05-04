@@ -1,4 +1,4 @@
-package com.example.binlistapp.search.data.data
+package com.example.binlistapp.search.data.network.dto
 
 data class BankDto(
     val name: String,

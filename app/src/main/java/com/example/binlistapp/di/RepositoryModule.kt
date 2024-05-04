@@ -10,10 +10,10 @@ import org.koin.dsl.module
 val repositoryModule = module {
 
     single<SearchingRepository> {
-        SearchingRepositoryImpl(get(),androidContext())
+        SearchingRepositoryImpl(get(),get(),androidContext())
     }
 
     single<HistoryRepository> {
-        HistoryRepositoryImpl()
+        HistoryRepositoryImpl(get(),get())
     }
 }

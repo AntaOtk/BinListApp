@@ -25,7 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.binlistapp.search.domain.model.InfoData
+import com.example.binlistapp.search.domain.model.CardInfo
 import com.example.binlistapp.ui.theme.HellGrey
 import org.koin.androidx.compose.koinViewModel
 
@@ -36,14 +36,19 @@ fun SearchScreen(
     modifier: Modifier,
     viewModel: SearchViewModel = koinViewModel()
 ) {
-    val currentData: InfoData? by viewModel.infoData.observeAsState(null)
+    val currentData: SearchState by viewModel.cardState.observeAsState(SearchState.Default)
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        BINTextField(viewModel,modifier)
-        currentData?.let { InfoPresenter(it, viewModel,modifier) }
+        BINTextField(viewModel, modifier)
+        when (currentData) {
+            is SearchState.Content -> InfoPresenter((currentData as SearchState.Content).cardInfo, viewModel, modifier)
+            is SearchState.Error -> Text(text = (currentData as SearchState.Error).errorMessage)
+            SearchState.Default -> Unit
+        }
+
         Button(onClick = { navController.navigate(route = "Second") },
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
@@ -54,7 +59,7 @@ fun SearchScreen(
 }
 
 @Composable
-fun InfoPresenter(currentData: InfoData, viewmodel: SearchViewModel, modifier: Modifier) {
+fun InfoPresenter(currentData: CardInfo, viewmodel: SearchViewModel, modifier: Modifier) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,8 +73,7 @@ fun InfoPresenter(currentData: InfoData, viewmodel: SearchViewModel, modifier: M
             text = "BANK:"
         )
         Text(
-            modifier = modifier.clickable { println("Clicked") },
-            text = currentData.bank.name
+            text = currentData.bank?.name ?: "-"
         )
         Spacer(modifier = modifier.padding(vertical = 8.dp))
         Text(
@@ -86,8 +90,8 @@ fun InfoPresenter(currentData: InfoData, viewmodel: SearchViewModel, modifier: M
             text = "Url:"
         )
         Text(
-            modifier = modifier.clickable { viewmodel.moveToUrl(currentData.bank.url) },
-            text = currentData.bank.url
+            modifier = modifier.clickable { currentData.bank?.url?.let { viewmodel.moveToUrl(it) } },
+            text = currentData.bank?.url ?: "-"
         )
         Spacer(modifier = modifier.padding(vertical = 8.dp))
         Text(
@@ -95,8 +99,8 @@ fun InfoPresenter(currentData: InfoData, viewmodel: SearchViewModel, modifier: M
             text = "Мобильный телефон:"
         )
         Text(
-            modifier = modifier.clickable { viewmodel.moveToCall(currentData.bank.phone) },
-            text = currentData.bank.phone
+            modifier = modifier.clickable { currentData.bank?.phone?.let { viewmodel.moveToCall(it) } },
+            text = currentData.bank?.phone ?: "-"
         )
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
         Text(
@@ -104,8 +108,8 @@ fun InfoPresenter(currentData: InfoData, viewmodel: SearchViewModel, modifier: M
             text = "country"
         )
         Text(
-            modifier = modifier.clickable { viewmodel.moveToMap(currentData.countryName) },
-            text = currentData.countryName,
+            modifier = modifier.clickable { currentData.country?.name?.let { viewmodel.moveToMap(it) } },
+            text = currentData.country?.name ?: "-",
         )
     }
 }

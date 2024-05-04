@@ -5,7 +5,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "bin_info_table")
 data class BINInfoEntity(
-    @PrimaryKey
-    val id: Int,
-    val country: String?
+    val scheme: String,
+    val type: String,
+    val brand: String,
+    val prepaid: Boolean,
+    val country: String,
+    val bank: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
 )

@@ -1,8 +1,8 @@
 package com.example.binlistapp.search.domain
 
-import com.example.binlistapp.search.domain.model.InfoData
-import kotlinx.coroutines.flow.Flow
+import com.example.binlistapp.search.domain.model.CardInfo
+import com.example.binlistapp.search.util.Resource
 
 interface SearchingRepository {
-    fun searchInfo(bin: String): Flow<InfoData>
+    suspend fun searchInfo(bin: String): Resource<CardInfo>
 }
