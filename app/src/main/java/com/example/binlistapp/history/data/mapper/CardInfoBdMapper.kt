@@ -1,6 +1,7 @@
 package com.example.binlistapp.history.data.mapper
 
 import com.example.binlistapp.history.data.bd.entity.BINInfoEntity
+import com.example.binlistapp.history.domain.model.FullCardInfo
 import com.example.binlistapp.search.domain.model.Bank
 import com.example.binlistapp.search.domain.model.CardInfo
 import com.example.binlistapp.search.domain.model.Country
@@ -9,8 +10,9 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 class CardInfoBdMapper(private val gson: Gson) {
-    fun map(cardInfo: BINInfoEntity): CardInfo {
-        return CardInfo(
+    fun map(cardInfo: BINInfoEntity): FullCardInfo {
+        return FullCardInfo(
+            cardInfo.id.toString(),
             cardInfo.scheme,
             cardInfo.type,
             cardInfo.brand,
@@ -20,15 +22,15 @@ class CardInfoBdMapper(private val gson: Gson) {
         )
     }
 
-    fun map(cardInfo: CardInfo): BINInfoEntity {
+    fun map(bin: String, cardInfo: CardInfo): BINInfoEntity {
         return BINInfoEntity(
+            bin.toLong(),
             cardInfo.scheme,
             cardInfo.type,
             cardInfo.brand,
             cardInfo.prepaid,
             gson.toJson(cardInfo.country),
             gson.toJson(cardInfo.bank),
-            null
         )
     }
 
@@ -38,7 +40,7 @@ class CardInfoBdMapper(private val gson: Gson) {
     }
 
     private fun mapToCountry(country: String): Country? {
-        val listOfMyClassObject: Type = object : TypeToken<Bank?>() {}.type
+        val listOfMyClassObject: Type = object : TypeToken<Country?>() {}.type
         return if (country.isNotEmpty()) gson.fromJson(country, listOfMyClassObject) else null
     }
 }

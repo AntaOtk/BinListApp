@@ -18,7 +18,7 @@ class SearchingInteractorImp(
 
     override fun searchInfo(bin: String): Flow<Resource<CardInfo>> = flow {
         val result = repository.searchInfo(bin)
-        if (result is Resource.Success) result.data?.let { historyRepository.setToHistory(it) }
+        if (result is Resource.Success) result.data?.let { historyRepository.setToHistory(bin,it) }
         emit(result)
     }
 

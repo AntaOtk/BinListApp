@@ -1,7 +1,6 @@
 package com.example.binlistapp.history.presenter
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import ExpandableCard
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,12 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.binlistapp.search.domain.model.CardInfo
-import com.example.binlistapp.ui.theme.HellGrey
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -32,7 +27,10 @@ fun HistoryScreen(
     modifier: Modifier,
     viewModel: HistoryViewModel = koinViewModel()
 ) {
-    Column {
+    viewModel.getHistory()
+    Column(
+        modifier = modifier.padding(horizontal = 16.dp)
+    ) {
         TopBar(modifier, navController)
         Button(onClick = { viewModel.cleanHistory() },
             modifier = Modifier.fillMaxWidth(),
@@ -40,7 +38,8 @@ fun HistoryScreen(
             shape = RoundedCornerShape(8.dp),
             contentPadding = ButtonDefaults.ContentPadding,
             content = { Text("Очистить историю поиска") })
-        viewModel.listInfo.forEach { HistoryInfoCard(modifier, viewModel, it) }
+        Spacer(modifier = modifier.padding(vertical = 8.dp))
+        viewModel.listInfo.forEach { ExpandableCard(modifier, viewModel, it) }
     }
 }
 
@@ -60,75 +59,5 @@ fun TopBar(modifier: Modifier, navController: NavHostController) {
             modifier = modifier.align(Alignment.CenterVertically),
             text = "History"
         )
-    }
-}
-
-@Composable
-fun HistoryInfoCard(modifier: Modifier, viewmodel: HistoryViewModel, currentData: CardInfo) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp)
-            .clip(shape = RoundedCornerShape(16.dp))
-            .background(HellGrey)
-            .padding(16.dp)
-    ) {
-        Text(
-            color = Color.Gray,
-            text = "BANK: ${currentData.bank?.name ?: "-"}"
-        )
-        Row {
-            Column {
-                Text(
-                    color = Color.Gray,
-                    text = "Brand: ${currentData.brand}"
-                )
-                Spacer(modifier = modifier.padding(vertical = 8.dp))
-                Text(
-                    color = Color.Gray,
-                    text = "country"
-                )
-                Text(
-                    modifier = modifier.clickable {
-                        currentData.country?.name?.let {
-                            viewmodel.goToMap(
-                                it
-                            )
-                        }
-                    },
-                    text = currentData.country?.name ?: "",
-                )
-            }
-            Column {
-                Text(
-                    color = Color.Gray,
-                    text = "Url:"
-                )
-                Text(
-                    modifier = modifier.clickable {
-                        currentData.bank?.url?.let {
-                            viewmodel.goToUrl(
-                                it
-                            )
-                        }
-                    },
-                    text = currentData.bank?.url ?: ""
-                )
-                Text(
-                    color = Color.Gray,
-                    text = "Мобильный телефон:"
-                )
-                Text(
-                    modifier = modifier.clickable {
-                        currentData.bank?.phone?.let {
-                            viewmodel.goToCall(
-                                it
-                            )
-                        }
-                    },
-                    text = currentData.bank?.phone ?: ""
-                )
-            }
-        }
     }
 }

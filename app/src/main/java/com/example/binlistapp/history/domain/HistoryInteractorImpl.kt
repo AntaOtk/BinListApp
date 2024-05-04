@@ -1,7 +1,7 @@
 package com.example.binlistapp.history.domain
 
 import com.example.binlistapp.contact.domain.ExternalNavigator
-import com.example.binlistapp.search.domain.model.CardInfo
+import com.example.binlistapp.history.domain.model.FullCardInfo
 import kotlinx.coroutines.flow.Flow
 
 class HistoryInteractorImpl(
@@ -9,7 +9,7 @@ class HistoryInteractorImpl(
     private val externalNavigator: ExternalNavigator
 ) : HistoryInteractor {
 
-    override fun getHistory(): Flow<List<CardInfo>> {
+    override fun getHistory(): Flow<List<FullCardInfo>> {
         return repository.getHistory()
     }
 

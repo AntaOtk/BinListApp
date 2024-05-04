@@ -4,11 +4,11 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.binlistapp.history.domain.HistoryInteractor
-import com.example.binlistapp.search.domain.model.CardInfo
+import com.example.binlistapp.history.domain.model.FullCardInfo
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(private val historyInteractor: HistoryInteractor) : ViewModel() {
-    val listInfo = mutableStateListOf<CardInfo>()
+    val listInfo = mutableStateListOf<FullCardInfo>()
 
     fun getHistory() {
         viewModelScope.launch {
@@ -20,7 +20,10 @@ class HistoryViewModel(private val historyInteractor: HistoryInteractor) : ViewM
     }
 
     fun cleanHistory() {
-
+        viewModelScope.launch {
+            historyInteractor.clearHistory()
+            getHistory()
+        }
     }
 
     fun goToCall(phone: String) {
