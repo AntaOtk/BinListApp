@@ -1,4 +1,4 @@
-package com.example.binlistapp.search.presenter
+package com.example.binlistapp.search.presentation
 
 import com.example.binlistapp.search.domain.model.CardInfo
 

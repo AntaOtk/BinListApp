@@ -1,8 +1,9 @@
-package com.example.binlistapp.search.presenter
+package com.example.binlistapp.search.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,7 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.binlistapp.R
-import com.example.binlistapp.contact.ToConnectProvider
+import com.example.binlistapp.contact.presentation.ToConnectProvider
 import com.example.binlistapp.search.domain.model.CardInfo
 import com.example.binlistapp.search.domain.model.Country
 import com.example.binlistapp.ui.theme.HellGrey
@@ -49,7 +50,7 @@ fun SearchScreen(
     ) {
         BINTextField(viewModel, modifier)
         when (currentData) {
-            is SearchState.Content -> InfoPresenter(
+            is SearchState.Content -> InfoColumm(
                 (currentData as SearchState.Content).cardInfo,
                 viewModel,
                 modifier
@@ -62,13 +63,12 @@ fun SearchScreen(
 
             SearchState.Default -> Spacer(modifier = modifier.padding(4.dp))
         }
-
-        Button(onClick = { navController.navigate(route = "Second") },
+        Button(onClick = { navController.navigate(route = "Second")},
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
             shape = RoundedCornerShape(8.dp),
             contentPadding = ButtonDefaults.ContentPadding,
-            content = { Text("Посмотрть историю поиска") })
+            content = { Text(stringResource(id = R.string.to_history_button)) })
     }
 }
 
@@ -84,7 +84,7 @@ fun ErrorText(message: String, modifier: Modifier) {
 }
 
 @Composable
-fun InfoPresenter(currentData: CardInfo, viewmodel: ToConnectProvider, modifier: Modifier) {
+fun InfoColumm(currentData: CardInfo, viewmodel: ToConnectProvider, modifier: Modifier) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -93,11 +93,12 @@ fun InfoPresenter(currentData: CardInfo, viewmodel: ToConnectProvider, modifier:
             .background(HellGrey)
             .padding(8.dp)
     ) {
-        NonClickableInfo(R.string.scheme, currentData.scheme, modifier)
-        NonClickableInfo(R.string.type, currentData.type, modifier)
-        NonClickableInfo(R.string.brand, currentData.brand, modifier)
-        CountryColumn(currentData.country, modifier, viewmodel)
-        NonClickableInfo(R.string.bank_name, currentData.bank?.name ?: "-", modifier)
+        NonClickableInfo(R.string.scheme, currentData.scheme)
+        NonClickableInfo(R.string.type, currentData.type)
+        NonClickableInfo(R.string.brand, currentData.brand)
+        if (currentData.prepaid != null) PreparedText(currentData.prepaid)
+        if (currentData.country != null) CountryColumn(currentData.country, modifier, viewmodel)
+        NonClickableInfo(R.string.bank_name, currentData.bank?.name ?: "-")
         if (!currentData.bank?.url.isNullOrEmpty()) {
             Text(
                 color = Color.Gray,
@@ -111,7 +112,7 @@ fun InfoPresenter(currentData: CardInfo, viewmodel: ToConnectProvider, modifier:
         if (!currentData.bank?.url.isNullOrEmpty()) {
             Text(
                 color = Color.Gray,
-                text = "Мобильный телефон:"
+                text = stringResource(id = R.string.mobile_phone)
             )
             Text(
                 modifier = modifier.clickable {
@@ -121,11 +122,54 @@ fun InfoPresenter(currentData: CardInfo, viewmodel: ToConnectProvider, modifier:
                         )
                     }
                 },
+                color = Color.Black,
                 text = currentData.bank?.phone ?: "-"
             )
         }
-        NonClickableInfo(R.string.bank_city, currentData.bank?.city, modifier)
+        NonClickableInfo(R.string.bank_city, currentData.bank?.city)
     }
+}
+
+@Composable
+fun PreparedText(preparer: Boolean) {
+    Column {
+        Text(
+            color = Color.Gray,
+            text = stringResource(id = R.string.preparer)
+        )
+        Row {
+            if (preparer) {
+                Text(
+                    color = Color.Black,
+                    text = stringResource(id = R.string.yes)
+                )
+                Text(
+                    color = Color.Gray,
+                    text = "/"
+                )
+                Text(
+                    color = Color.Gray,
+                    text = stringResource(id = R.string.no)
+                )
+            } else {
+                Text(
+                    color = Color.Gray,
+                    text = stringResource(id = R.string.yes)
+                )
+                Text(
+                    color = Color.Gray,
+                    text = "/"
+                )
+                Text(
+                    color = Color.Black,
+                    text = stringResource(id = R.string.no)
+                )
+            }
+
+
+        }
+    }
+
 }
 
 @Composable
@@ -150,7 +194,7 @@ fun CountryColumn(country: Country?, modifier: Modifier, viewmodel: ToConnectPro
 }
 
 @Composable
-fun NonClickableInfo(text: Int, text1: String?, modifier: Modifier) {
+fun NonClickableInfo(text: Int, text1: String?) {
     if (!text1.isNullOrEmpty()) {
         Column {
             Text(
@@ -158,7 +202,7 @@ fun NonClickableInfo(text: Int, text1: String?, modifier: Modifier) {
                 text = stringResource(id = text)
             )
             Text(
-                modifier = modifier.clickable { println("Clicked") },
+                color = Color.Black,
                 text = text1
             )
         }
@@ -190,7 +234,7 @@ fun BINTextField(
             enabled = true,
             shape = RoundedCornerShape(8.dp),
             contentPadding = ButtonDefaults.ContentPadding,
-            onClick = { viewModel.searchInfo(text.text) }, content = { Text("Начать поиск") })
+            onClick = { viewModel.searchInfo(text.text) }, content = { Text(text = stringResource(id = R.string.start_search)) })
     }
 
 }

@@ -12,8 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.binlistapp.history.presenter.HistoryScreen
-import com.example.binlistapp.search.presenter.SearchScreen
+import com.example.binlistapp.history.presentation.HistoryScreen
+import com.example.binlistapp.search.presentation.SearchScreen
 import com.example.binlistapp.ui.theme.BinListAppTheme
 
 class MainActivity : ComponentActivity() {

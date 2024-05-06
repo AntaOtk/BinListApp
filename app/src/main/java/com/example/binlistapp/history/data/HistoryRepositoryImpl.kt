@@ -19,7 +19,8 @@ class HistoryRepositoryImpl(
     }
 
     override suspend fun setToHistory(bin: String, cardInfo: CardInfo) {
-        dao.setBinInfo(cardInfoBdMapper.map(bin, cardInfo))
+        val idCards = dao.getHistoryId()
+        if (!idCards.contains(bin.toLong())) dao.setBinInfo(cardInfoBdMapper.map(bin, cardInfo))
     }
 
     override suspend fun clearHistory() {

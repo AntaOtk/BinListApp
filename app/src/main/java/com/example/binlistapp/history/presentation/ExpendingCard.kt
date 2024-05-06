@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.binlistapp.history.domain.model.FullCardInfo
-import com.example.binlistapp.history.presenter.HistoryViewModel
-import com.example.binlistapp.search.presenter.InfoPresenter
+import com.example.binlistapp.history.presentation.HistoryViewModel
+import com.example.binlistapp.search.presentation.InfoColumm
 
 @Composable
 fun ExpandableCard(
@@ -31,6 +31,7 @@ fun ExpandableCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(vertical = 4.dp)
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 300,
@@ -44,7 +45,7 @@ fun ExpandableCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Text(
                 modifier = Modifier
@@ -56,7 +57,7 @@ fun ExpandableCard(
                 overflow = TextOverflow.Ellipsis,
             )
             if (expandedState) {
-                InfoPresenter(data.cardInfo, viewmodel, modifier)
+                InfoColumm(data.cardInfo, viewmodel, modifier)
             }
         }
     }

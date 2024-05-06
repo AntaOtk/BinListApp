@@ -1,4 +1,4 @@
-package com.example.binlistapp.contact
+package com.example.binlistapp.contact.presentation
 
 interface ToConnectProvider {
     fun goToCall(phone: String)

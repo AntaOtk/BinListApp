@@ -16,4 +16,6 @@ interface BINInfoDao {
 
     @Query("DELETE FROM bin_info_table")
     suspend fun clearHistory()
+    @Query("SELECT id FROM bin_info_table")
+    suspend fun getHistoryId(): List<Long>
 }

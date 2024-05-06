@@ -20,19 +20,22 @@ class SearchingRepositoryImpl(
         val response = networkClient.search(bin)
         when (response.resultCode) {
             -1 -> {
-                return Resource.Error(androidContext.getString(R.string.bad_response))
+                return Resource.Error(androidContext.getString(R.string.no_interrnet_conection))
             }
 
             200 -> {
                 with(response as CardDto) {
                     Log.d("response", "result = $this")
                     val data = mapper.mapFromDto(this)
-                    return Resource.Success(data)
+                    return if (data != null) Resource.Success(data)
+                    else Resource.Error(
+                        androidContext.getString(R.string.not_found)
+                    )
                 }
             }
 
             else -> {
-                return Resource.Error(androidContext.getString(R.string.no_interrnet_conection))
+                return Resource.Error(androidContext.getString(R.string.bad_response))
             }
         }
     }

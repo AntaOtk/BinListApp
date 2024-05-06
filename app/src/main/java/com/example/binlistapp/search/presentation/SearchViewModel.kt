@@ -1,10 +1,10 @@
-package com.example.binlistapp.search.presenter
+package com.example.binlistapp.search.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.binlistapp.contact.ToConnectProvider
+import com.example.binlistapp.contact.presentation.ToConnectProvider
 import com.example.binlistapp.search.domain.SearchingInteractor
 import com.example.binlistapp.search.util.Resource
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ class SearchViewModel(val interactor: SearchingInteractor) : ViewModel(), ToConn
     }
 
     override fun goToMap(latitude: Long, longitude: Long) {
-        interactor.goToMap(latitude,longitude)
+        interactor.goToMap(latitude, longitude)
     }
 
     override fun goToUrl(bankUrl: String) {
