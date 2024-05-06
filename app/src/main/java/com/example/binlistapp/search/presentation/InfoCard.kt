@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +19,6 @@ import com.example.binlistapp.R
 import com.example.binlistapp.contact.presentation.ToConnectProvider
 import com.example.binlistapp.search.domain.model.CardInfo
 import com.example.binlistapp.search.domain.model.Country
-import com.example.binlistapp.ui.theme.HellGrey
 
 @Composable
 fun InfoCard(currentData: CardInfo, viewmodel: ToConnectProvider, modifier: Modifier) {
@@ -26,9 +26,9 @@ fun InfoCard(currentData: CardInfo, viewmodel: ToConnectProvider, modifier: Modi
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp)
-            .clip(shape = RoundedCornerShape(16.dp))
-            .background(HellGrey)
-            .padding(8.dp)
+            .clip(shape = RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.onPrimary)
+            .padding(24.dp)
     ) {
         NonClickableInfo(R.string.scheme, currentData.scheme)
         NonClickableInfo(R.string.type, currentData.type)
@@ -125,6 +125,7 @@ fun CountryColumn(country: Country?, modifier: Modifier, viewmodel: ToConnectPro
                     )
                 }
             },
+            color = Color.Black,
             text = country?.name ?: "-",
         )
     }

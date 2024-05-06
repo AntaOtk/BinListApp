@@ -26,7 +26,7 @@ class SearchViewModel(
     }
 
     fun searchInfo(input: String) {
-        if (input.length > MIN_LENGTH) {
+        if (input.length >= MIN_LENGTH) {
             viewModelScope.launch {
                 val bin = if (input.length <= MAX_LENGTH) input else input.substring(0, 7)
                 interactor.searchInfo(bin).collect { result ->

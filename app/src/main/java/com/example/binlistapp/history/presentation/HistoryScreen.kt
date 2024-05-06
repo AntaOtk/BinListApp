@@ -22,6 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.binlistapp.R
+import com.example.binlistapp.ui.theme.blueColor
+import com.example.binlistapp.ui.theme.white
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -39,6 +41,10 @@ fun HistoryScreen(
     ) {
         TopBar(modifier, navController)
         Button(onClick = { viewModel.cleanHistory() },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = blueColor,
+                contentColor = white
+            ),
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
             shape = RoundedCornerShape(8.dp),
@@ -54,6 +60,7 @@ fun TopBar(modifier: Modifier, navController: NavHostController) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(vertical = 16.dp)
     ) {
         IconButton(onClick = { navController.popBackStack() }) {
             Icon(
@@ -62,7 +69,9 @@ fun TopBar(modifier: Modifier, navController: NavHostController) {
             )
         }
         Text(
-            modifier = modifier.align(Alignment.CenterVertically),
+            modifier = modifier
+                .align(Alignment.CenterVertically)
+                .padding(start = 8.dp),
             text = stringResource(id = R.string.second_screen_title)
         )
     }
