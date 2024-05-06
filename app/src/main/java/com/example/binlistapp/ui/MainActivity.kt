@@ -36,14 +36,19 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun CustomNavHost( navController: NavHostController) {
-        NavHost(navController = navController, startDestination = "First") {
-            composable("First") {
-                SearchScreen(navController,modifier)
+    private fun CustomNavHost(navController: NavHostController) {
+        NavHost(navController = navController, startDestination = FIRST_SCREEN) {
+            composable(FIRST_SCREEN) {
+                SearchScreen(navController, modifier)
             }
-            composable("Second") {
-                HistoryScreen(navController,modifier)
+            composable(SECOND_SCREEN) {
+                HistoryScreen(navController, modifier)
             }
         }
+    }
+
+    companion object {
+        const val FIRST_SCREEN = "First"
+        const val SECOND_SCREEN = "Second"
     }
 }

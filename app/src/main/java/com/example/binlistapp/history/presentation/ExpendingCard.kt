@@ -1,3 +1,5 @@
+package com.example.binlistapp.history.presentation
+
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -18,8 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.binlistapp.history.domain.model.FullCardInfo
-import com.example.binlistapp.history.presentation.HistoryViewModel
-import com.example.binlistapp.search.presentation.InfoColumm
+import com.example.binlistapp.search.presentation.InfoCard
 
 @Composable
 fun ExpandableCard(
@@ -57,9 +58,11 @@ fun ExpandableCard(
                 overflow = TextOverflow.Ellipsis,
             )
             if (expandedState) {
-                InfoColumm(data.cardInfo, viewmodel, modifier)
+                InfoCard(data.cardInfo, viewmodel, modifier)
             }
         }
     }
 }
+
+
 

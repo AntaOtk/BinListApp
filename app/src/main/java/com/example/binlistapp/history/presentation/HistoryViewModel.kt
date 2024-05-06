@@ -3,12 +3,13 @@ package com.example.binlistapp.history.presentation
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.binlistapp.contact.domain.ConnectInteractor
 import com.example.binlistapp.contact.presentation.ToConnectProvider
 import com.example.binlistapp.history.domain.HistoryInteractor
 import com.example.binlistapp.history.domain.model.FullCardInfo
 import kotlinx.coroutines.launch
 
-class HistoryViewModel(private val historyInteractor: HistoryInteractor) : ViewModel(),
+class HistoryViewModel(private val historyInteractor: HistoryInteractor, private val connectInteractor: ConnectInteractor) : ViewModel(),
     ToConnectProvider {
     val listInfo = mutableStateListOf<FullCardInfo>()
 
@@ -29,14 +30,14 @@ class HistoryViewModel(private val historyInteractor: HistoryInteractor) : ViewM
     }
 
     override fun goToCall(phone: String) {
-        historyInteractor.goToCall(phone)
+        connectInteractor.goToCall(phone)
     }
 
     override fun goToMap(latitude: Long, longitude: Long) {
-        historyInteractor.goToMap(latitude, longitude)
+        connectInteractor.goToMap(latitude, longitude)
     }
 
     override fun goToUrl(bankUrl: String) {
-        historyInteractor.goToUrl(bankUrl)
+        connectInteractor.goToUrl(bankUrl)
     }
 }

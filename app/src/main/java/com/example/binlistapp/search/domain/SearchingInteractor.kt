@@ -6,8 +6,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchingInteractor {
     fun searchInfo(bin: String): Flow<Resource<CardInfo>>
-
-    fun moveToCall(phone: String)
-    fun goToMap(latitude: Long, longitude: Long)
-    fun moveToUrl(bankUrl: String)
 }
